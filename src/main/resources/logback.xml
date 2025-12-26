@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <Properties>
-        <property name="LOG_FILE" value="logs/app.log"/>
-        <Property name="LOG"
-                  value="%-5p %d{yyyy-MM-dd HH:mm:ss, SSS} %c{1.}.%M (%F:%L): %msg%n"/>
-        <Property name="LOG_COLOR"
-                  value="%highlight{${sys:LOG}}{FATAL=red blink, ERROR=red bold, WARN=yellow, INFO=green,
-                  DEBUG=cyan, TRACE=magenta}"/>
-    </Properties>
+    <property name="LOG_FILE" value="logs/app.log"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -42,8 +35,8 @@
 
 </configuration>
 
-        <!-- ColorConsole: Записывает сообщения в консоль. -->
-        <!-- RollingFile: Записывает сообщения в файл logs/app.log и автоматически переключается на новый файл каждый день, -->
+        <!-- CONSOLE: Записывает сообщения в консоль. -->
+        <!-- FILE: Записывает сообщения в файл logs/app.log и автоматически переключается на новый файл каждый день, -->
         <!-- а также при достижении размера 10MB. Хранит логи за последние 7 дней. -->
         <!-- Мы также определили logger для пакета "com.aston.homework_spring.controller с уровнем DEBUG и указали, что он -->
         <!-- должен использовать оба appender'а. additivity="false" означает, что сообщения, записанные этим logger'ом, -->
