@@ -3,7 +3,7 @@ package com.aston.homework_spring.controller;
 import com.aston.homework_spring.config.LocalDateTimeDeserializer;
 import com.aston.homework_spring.config.LocalDateTimeSerializer;
 import com.aston.homework_spring.model.User;
-import com.aston.homework_spring.service.UserService;
+import com.aston.homework_spring.service.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -31,7 +31,7 @@ class UserControllerIT extends ContainerIT {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -63,7 +63,7 @@ class UserControllerIT extends ContainerIT {
 
         // В базу данных загружено 10 пользователей
         List<User.Out> expected =
-                new ArrayList<>(List.of(userService.find(4L), userService.find(5L), userService.find(6L)));
+                new ArrayList<>(List.of(userServiceImpl.find(4L), userServiceImpl.find(5L), userServiceImpl.find(6L)));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/users/get-all-by-offset-limit")

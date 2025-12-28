@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -34,7 +34,7 @@ class UserServiceTest {
     private UserMapper mapper;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     private User user1;
     private User user2;
@@ -104,7 +104,7 @@ class UserServiceTest {
         doReturn(users).when(userRepository).getAllOffsetLimit(anyInt(), anyInt());
         doReturn(expected).when(mapper).toDTO(anyList());
 
-        List<User.Out> actual = userService.getAll(1, 2);
+        List<User.Out> actual = userServiceImpl.getAll(1, 2);
         // Пропускаем первого пользователя и выводим двух следующих
 
         assertNotNull(actual, "users is empty");
@@ -125,7 +125,7 @@ class UserServiceTest {
 
         doReturn(expected.size()).when(userRepository).getTotalCountOfUsers();
 
-        int actual = userService.getAllCount();
+        int actual = userServiceImpl.getAllCount();
         // Выводим количество пользователей, которое равно 3
 
         assertEquals(expected.size(), actual);
@@ -141,7 +141,7 @@ class UserServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user1));
         when(mapper.toDTO(any(User.class))).thenReturn(out1);
 
-        User.Out actual = userService.find(1L);
+        User.Out actual = userServiceImpl.find(1L);
 
         Assertions.assertNotNull(actual, "User is null");
         Assertions.assertEquals(out1.getId(), actual.getId());
@@ -164,7 +164,7 @@ class UserServiceTest {
         when(userRepository.findById(id)).thenReturn(Optional.empty());
         // Исключение возвращает тестируемый, а не зависимый класс. Поэтому не мокируем поведение на выброс исключения.
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> userService.find(id));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> userServiceImpl.find(id));
 
         Assertions.assertEquals("User with id = " + id + " not found", exception.getMessage());
         verify(userRepository, times(1)).findById(20L);
@@ -203,7 +203,7 @@ class UserServiceTest {
         doReturn(out4).when(mapper).toDTO(any(User.class));
 
         // Вызываем метод из тестируемого класса
-        User.Out actual = userService.create(in4);
+        User.Out actual = userServiceImpl.create(in4);
 
         assertNotNull(actual, "user is null");
         assertEquals(out4.getId(), actual.getId());
@@ -252,7 +252,7 @@ class UserServiceTest {
         doReturn(updatedOut).when(mapper).toDTO(any(User.class));
 
         // Вызываем метод из тестируемого класса
-        User.Out actual = userService.update(2L, in5);
+        User.Out actual = userServiceImpl.update(2L, in5);
 
         Assertions.assertNotNull(actual, "user is null");
         Assertions.assertEquals(updatedOut.getId(), actual.getId());
@@ -287,7 +287,7 @@ class UserServiceTest {
         // Исключение возвращает тестируемый, а не зависимый класс. Поэтому не мокируем поведение на выброс исключения.
 
         EntityNotFoundException exception =
-                assertThrows(EntityNotFoundException.class, () -> userService.update(id, in5));
+                assertThrows(EntityNotFoundException.class, () -> userServiceImpl.update(id, in5));
 
         Assertions.assertEquals("User with id = " + id + " not found", exception.getMessage());
 
@@ -304,7 +304,7 @@ class UserServiceTest {
         doReturn(Optional.of(user3)).when(userRepository).findById(anyLong());
         doNothing().when(userRepository).deleteById(user3.getId());
 
-        userService.delete(id);
+        userServiceImpl.delete(id);
 
         verify(userRepository, times(1)).findById(id);
         verify(userRepository, times(1)).deleteById(id);
@@ -323,7 +323,7 @@ class UserServiceTest {
         // Исключение возвращает тестируемый, а не зависимый класс. Поэтому не мокируем поведение на выброс исключения.
 
         EntityNotFoundException exception =
-                assertThrows(EntityNotFoundException.class, () -> userService.delete(id));
+                assertThrows(EntityNotFoundException.class, () -> userServiceImpl.delete(id));
 
         Assertions.assertEquals("User with id = " + id + " not found", exception.getMessage());
 
