@@ -87,6 +87,9 @@ class UserProducerImplIntegrationTest {
         // В течение 3 секунд ждем отправленного producer'ом сообщения
         Assertions.assertNotNull(message);
         Assertions.assertNotNull(message.key());
+        Assertions.assertEquals("1", message.key());
+        Assertions.assertEquals("user-created-deleted-events-topic", message.topic());
+
         UserCreatedDeletedEvent event = message.value();
         Assertions.assertEquals("UserCreated", event.getType());
         Assertions.assertEquals(user.getName(), event.getName());
@@ -109,6 +112,9 @@ class UserProducerImplIntegrationTest {
         // В течение 3 секунд ждем отправленного producer'ом сообщения
         Assertions.assertNotNull(message);
         Assertions.assertNotNull(message.key());
+        Assertions.assertEquals("1", message.key());
+        Assertions.assertEquals("user-created-deleted-events-topic", message.topic());
+
         UserCreatedDeletedEvent event = message.value();
         Assertions.assertEquals("UserDeleted", event.getType());
         Assertions.assertEquals(user.getName(), event.getName());
