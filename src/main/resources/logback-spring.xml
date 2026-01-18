@@ -32,7 +32,7 @@
         <appender-ref ref="Console" />
     </root>
 
-    <logger name="com.aston.usermicroservice.service" level="debug" additivity="false">
+    <logger name="com.aston.user_microservice.service" level="debug" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
