@@ -6,6 +6,7 @@ import com.aston.user_microservice.model.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Profile({"kafka", "local"})
 public class UserProducerImpl implements UserProducer {
 
     private static final String CREATED_USER = "UserCreated";

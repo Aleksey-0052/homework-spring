@@ -4,7 +4,6 @@ import com.aston.user_microservice.exception.EntityNotFoundException;
 import com.aston.user_microservice.mapper.UserMapper;
 import com.aston.user_microservice.model.User;
 import com.aston.user_microservice.repository.UserRepository;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +16,7 @@ import java.util.List;
 @Slf4j
 @Service
 @AllArgsConstructor
-@Profile("!api")
+@Profile({"kafka", "local"})
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;

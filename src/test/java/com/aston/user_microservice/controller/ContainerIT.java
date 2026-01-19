@@ -10,7 +10,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@ActiveProfiles("test_database")
+@ActiveProfiles({"kafka", "test_database"})
 @Sql(scripts = {"classpath:liquibase/scripts/01-create-table.sql", "classpath:test.sql"},
         config = @SqlConfig(encoding = "UTF-8"))
 @Testcontainers

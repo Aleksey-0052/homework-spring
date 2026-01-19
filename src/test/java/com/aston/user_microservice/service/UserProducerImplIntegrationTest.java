@@ -29,11 +29,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test_kafka")
+@ActiveProfiles({"kafka", "test_kafka"})
 @DirtiesContext
 @SpringBootTest(properties = "spring.kafka.producer.bootstrap-servers=${spring.embedded.kafka.brokers}")
 @EmbeddedKafka(partitions = 3, count = 3, controlledShutdown = true)
 class UserProducerImplIntegrationTest {
+
+    // Перед запуском тестов необходимо запустить Config Server, Eureka Server, Api Gateway
 
     // Аннотация @EmbeddedKafka используется для внедрения экземпляра EmbeddedKafkaBroker в наши тесты.
     // count = 3 - три брокера

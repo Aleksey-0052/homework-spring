@@ -26,8 +26,10 @@ import java.util.Collection;
 @Slf4j
 @RequestMapping("/users")
 @Tag(name = "Пользователи", description = "API для работы с пользователями")
-@Profile("!api")
+@Profile({"kafka", "local"})
 public class UserController {
+
+    // Данный бин будет создаваться при активации любого из перечисленных профилей
 
     private final UserService userService;
 

@@ -32,7 +32,7 @@ public class UserServiceSyncImpl implements UserService {
             isolation = Isolation.REPEATABLE_READ,
             rollbackFor = {Exception.class}
     )
-    @CircuitBreaker(name = "mailService")
+    @CircuitBreaker(name = "emailMicroservice")
     @Retry(name = "myRetry")
     @Override
     public User.Out create(User.In in) {
@@ -40,8 +40,8 @@ public class UserServiceSyncImpl implements UserService {
         mapper.updateUserFromUserIn(in, user);
         User createdUser = userRepository.save(user);
 
-        String emailUrl = "http://localhost:email/simple-email/type-operation-create?email="
-                + createdUser.getEmail() + "&name=" + createdUser.getName();
+        String emailUrl = "http://localhost:8080/email/simple-email/type-operation-create?user-email="
+                + createdUser.getEmail() + "&user-name=" + createdUser.getName();
         ResponseEntity<String> messageResponse = restTemplate.getForEntity(emailUrl, String.class);
 
         return mapper.toDTO(createdUser);
@@ -52,7 +52,7 @@ public class UserServiceSyncImpl implements UserService {
             isolation = Isolation.READ_COMMITTED,
             rollbackFor = {Exception.class}
     )
-    @CircuitBreaker(name = "mailService")
+    @CircuitBreaker(name = "emailMicroservice")
     @Retry(name = "myRetry")
     @Override
     public void delete(long id) {
@@ -62,8 +62,8 @@ public class UserServiceSyncImpl implements UserService {
 
         String email = user.getEmail();
         String name = user.getName();
-        String emailUrl = "http://localhost:email/simple-email/type-operation-delete/" + email + "/" + name;
-        ResponseEntity<String> messageResponse = restTemplate.getForEntity(emailUrl, String.class);
+        String emailUrl = "http://localhost:8080/email/simple-email/type-operation-delete/{user-email}/{user-name}";
+        ResponseEntity<String> messageResponse = restTemplate.getForEntity(emailUrl, String.class, email, name);
     }
 
 

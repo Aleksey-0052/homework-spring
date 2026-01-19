@@ -31,6 +31,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class UserControllerIT extends ContainerIT {
 
+    // Перед запуском тестов необходимо запустить Config Server, Eureka Server, Api Gateway
+
     @Autowired
     private MockMvc mockMvc;
 

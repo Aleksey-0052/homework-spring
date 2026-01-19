@@ -2,7 +2,6 @@ package com.aston.user_microservice.controller;
 
 import com.aston.user_microservice.model.User;
 import com.aston.user_microservice.service.UserService;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @Slf4j
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @Tag(name = "Пользователи", description = "API для работы с пользователями")
 @Profile("api")
 public class UserControllerSync {
@@ -51,7 +50,6 @@ public class UserControllerSync {
                     " иная ошибка сервера", content = @Content)
     })
     @PostMapping
-    @CircuitBreaker(name = "myCircuitBreaker", fallbackMethod = "recoverMethod")
     public ResponseEntity<User.Out> create(@Valid @RequestBody User.In dto) {
         User.Out out = userService.create(dto);
         log.info("User created successfully: {}", out);
