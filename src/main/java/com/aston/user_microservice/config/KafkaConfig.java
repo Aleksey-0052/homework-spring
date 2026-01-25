@@ -81,9 +81,13 @@ public class KafkaConfig {
     NewTopic createTopic() {
         return TopicBuilder.name("user-created-deleted-events-topic")
                 .partitions(3)
-                .replicas(1)
-                // В кластере только один брокер
-                //.configs(Map.of("min.insync.replicas", "1"))
+                // В топике три партиции (могут параллельно принимать от producer'а сообщения)
+                .replicas(3)
+                // В кластере три брокера (один - лидер)
+                .configs(Map.of("min.insync.replicas", "2"))
+                // С брокером-лидером синхронизирован только один из двух оставшихся брокеров.
+                // Если один брокер из трех брокеров упадет, то значение = 2 позволит кластеру продолжить и дальше
+                // принимать сообщения (так как останутся работоспособными два брокера).
                 .build();
     }
 
